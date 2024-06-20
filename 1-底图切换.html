@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+
+    <style>
+        html,
+        body,
+        #Map {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Map"></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiMTUyODAzNzUwMzEiLCJhIjoiY2wxaGx5MGk0MDE4ejNrcGwwMWlmZWZleCJ9.X-IFdAT4XtJefXIDYcvt5Q';
+
+        const source = {
+            'y': 'http://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+            'p': 'http://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+        }
+
+        function addBaseLayer(type) {
+            map.addLayer({
+                id: type + "-layer",
+                type: "raster",
+                source: {
+                    "type": "raster",
+                    "tiles": [source[type]],
+                    "tileSize": 256
+                },
+                layout: {
+                    visibility: 'visible'
+                }
+            });
+        }
+
+        const loadIds = []
+        function changeLayer(type) {
+            if (!map.getLayer(type + '-layer')) {
+                addBaseLayer(type)
+                loadIds.push(type)
+            }
+
+            loadIds.forEach(id => {
+                map.setLayoutProperty(id + '-layer', 'visibility', id == type ? 'visible' : 'none')
+            })
+        }
+
+        let map
+        (function () {
+            map = new mapboxgl.Map({
+                container: 'Map',
+                style: {
+                    version: 8,
+                    sources: {},
+                    layers: [],
+                }
+            });
+
+            map.once('load', function () {
+                changeLayer('y')
+            })
+        })()
+    </script>
+</body>
+
+</html>
