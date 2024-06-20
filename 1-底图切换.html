@@ -18,11 +18,22 @@
             position: relative;
             height: 100vh;
         }
+        .action{
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
     </style>
 </head>
 
 <body>
-    <div id="Map"></div>
+    <div id="Map">
+        <div class="action">
+            <button onclick="changeLayer('y')">谷歌影像</button>
+            <button onclick="changeLayer('p')">谷歌矢量</button>
+        </div>
+    </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiMTUyODAzNzUwMzEiLCJhIjoiY2wxaGx5MGk0MDE4ejNrcGwwMWlmZWZleCJ9.X-IFdAT4XtJefXIDYcvt5Q';
 
