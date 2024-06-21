@@ -1,1 +1,1 @@
-# mapboxjs-threejs-demo
+# map-threejs
